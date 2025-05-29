@@ -1,5 +1,5 @@
+ // PUBLIC_INTERFACE
 /**
- * PUBLIC_INTERFACE
  * Enhanced Settings screen: theme mode (fantasy/dark/light) toggle, reset progress, delete account,
  * feedback/error handling, accessibility, responsive RPG style.
  */
@@ -83,9 +83,9 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
     );
 
     // Reset Progress logic
-    const resetBtn = document.getElementById('reset-progress-btn');
+    const resetBtn = globalThis.document.getElementById('reset-progress-btn');
     resetBtn.onclick = async () => {
-      if(!window.confirm('⚠️ Are you sure you want to reset all progress? This cannot be undone.')) return safeFocus('reset-progress-btn');
+      if(!globalThis.confirm('⚠️ Are you sure you want to reset all progress? This cannot be undone.')) return safeFocus('reset-progress-btn');
       saving = true; status = "Resetting progress..."; statusType = "info"; render();
       try {
         const userId = user?.uid;
@@ -115,9 +115,9 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
     };
 
     // Delete Account logic
-    const delBtn = document.getElementById('delete-account-btn');
+    const delBtn = globalThis.document.getElementById('delete-account-btn');
     delBtn.onclick = async () => {
-      if(!window.confirm('⚠️ Are you sure you want to DELETE your account forever?\nThis cannot be undone!')) return safeFocus('delete-account-btn');
+      if(!globalThis.confirm('⚠️ Are you sure you want to DELETE your account forever?\nThis cannot be undone!')) return safeFocus('delete-account-btn');
       saving = true; status = "Deleting account..."; statusType = "info"; render();
       try {
         const userId = user?.uid;
@@ -138,11 +138,11 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
     };
 
     // Feedback submit logic (simulate, since backend is out of current scope)
-    const form = document.getElementById('settings-form');
+    const form = globalThis.document.getElementById('settings-form');
     form.onsubmit = (e) => {
       e.preventDefault();
       if (saving) return;
-      const input = document.getElementById('feedback-input');
+      const input = globalThis.document.getElementById('feedback-input');
       const feedback = input.value ? input.value.trim() : '';
       if (!feedback) {
         status = "Please enter feedback before submitting.";
