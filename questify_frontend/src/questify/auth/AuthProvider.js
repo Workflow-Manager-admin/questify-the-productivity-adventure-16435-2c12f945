@@ -1,4 +1,4 @@
-import { initFirebase, getAuth, onAuthStateChanged, loginWithGoogle, loginWithEmail, logoutUser } from './firebase.js';
+import { initFirebase, getAuth, onAuthStateChanged, loginWithGoogle, loginWithEmail } from './firebase.js';
 
 // PUBLIC_INTERFACE
 export function AuthProvider(onReady, domNode) {
