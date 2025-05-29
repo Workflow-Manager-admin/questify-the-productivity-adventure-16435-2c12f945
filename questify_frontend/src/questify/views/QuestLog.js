@@ -117,12 +117,11 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
       });
     });
     // Touch support (mobile drag-to-reorder)
-    if (window.innerWidth < mobileBreakpoint) {
+    if (globalThis.innerWidth < mobileBreakpoint) {
       items.forEach((item, idx) => {
-        let touchStartY = 0, dragging = false;
+        let dragging = false;
         item.querySelector('.drag-handle').addEventListener('touchstart', (e) => {
           e.stopPropagation();
-          touchStartY = e.touches[0].clientY;
           DND_STATE.draggingIndex = idx;
           dragging = true;
         });
