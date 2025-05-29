@@ -11,15 +11,15 @@ export function AnimatedBackground(theme, domNode) {
 
   let ctx = canvas.getContext('2d');
   function resize() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    canvas.width = globalThis.innerWidth;
+    canvas.height = globalThis.innerHeight;
   }
-  window.addEventListener('resize', resize); resize();
+  globalThis.addEventListener('resize', resize); resize();
 
   // Nebula + star fields
   let particles = Array.from({ length: 130 }, () => ({
-    x: Math.random() * window.innerWidth,
-    y: Math.random() * window.innerHeight,
+    x: Math.random() * globalThis.innerWidth,
+    y: Math.random() * globalThis.innerHeight,
     r: 0.65 + 2 * Math.random(),
     dx: 0.2 + Math.random() * 0.2,
     dy: 0.2 + Math.random() * 0.23,
@@ -52,7 +52,7 @@ export function AnimatedBackground(theme, domNode) {
       p.x += p.dx; if (p.x > canvas.width) p.x = 0;
       p.y += p.dy; if (p.y > canvas.height) p.y = 0;
     }
-    requestAnimationFrame(draw);
+    globalThis.requestAnimationFrame(draw);
   }
   draw();
 }
