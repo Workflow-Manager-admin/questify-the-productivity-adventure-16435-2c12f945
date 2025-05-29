@@ -10,7 +10,7 @@ export function ThemeProvider(authCtx, onReady) {
   let mode = 'fantasy';
   try {
     mode = globalThis.localStorage.getItem('q_theme') || 'fantasy';
-  } catch (e) { mode = 'fantasy'; }
+  } catch { mode = 'fantasy'; }
   let rerender = () => {};
   const ctx = {
     mode,

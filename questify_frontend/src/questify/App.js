@@ -1,7 +1,7 @@
 import { AuthProvider } from './auth/AuthProvider.js';
 import { ThemeProvider } from './ui/ThemeProvider.js';
 import { GameProvider } from './rpg/GameProvider.js';
-import { AppRouter } from './questify/Router.js';
+import { AppRouter } from './Router.js';
 import { AnimatedBackground } from './ui/AnimatedBackground.js';
 
 // PUBLIC_INTERFACE
