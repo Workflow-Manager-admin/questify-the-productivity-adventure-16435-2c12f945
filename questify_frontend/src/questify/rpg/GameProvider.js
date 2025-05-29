@@ -1,10 +1,10 @@
 import { getFirestore } from '../auth/firebase.js';
 
 // PUBLIC_INTERFACE
-export function GameProvider({ auth, theme }, onReady) {
+export function GameProvider({ auth }, onReady) {
   const db = getFirestore();
   let userId = auth?.user?.uid;
-  // sync state with Firestore (XP, HP, inventory, cosmetic, focus, etc)
+  // sync state with Firestore (XP, etc.)
   const defaultState = {
     xp: 0, hp: 100, level: 1, streak: 0, soulTokens: 0, avatar: 'default', settings: {}, focus: false, boss: null, calendarEvents: [],
     inventory: [],
@@ -12,6 +12,7 @@ export function GameProvider({ auth, theme }, onReady) {
     logs: [],
   };
   let state = { ...defaultState };
+  let rerender = () => {};
 
   // Subscribe to Firestore doc changes (XP, etc.)
   const unsub = db.collection('users').doc(userId).onSnapshot((doc) => {
@@ -59,14 +60,12 @@ export function GameProvider({ auth, theme }, onReady) {
     rerender();
   }
 
-  function rerender() {}
-
   const ctx = {
     ...state,
     gainXP, loseHP, addInventory, streakUp, setBoss, setQuests,
     subscribe: (fn) => { rerender = fn; },
     getState: () => ({ ...state }),
-    unsubscribe: () => unsub?.(),
+    unsubscribe: () => { if (unsub) unsub(); },
   };
 
   onReady(ctx);
