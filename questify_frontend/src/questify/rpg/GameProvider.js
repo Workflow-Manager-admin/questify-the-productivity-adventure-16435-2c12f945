@@ -1,0 +1,73 @@
+import { getFirestore } from '../auth/firebase.js';
+
+// PUBLIC_INTERFACE
+export function GameProvider({ auth, theme }, onReady) {
+  const db = getFirestore();
+  let userId = auth?.user?.uid;
+  // sync state with Firestore (XP, HP, inventory, cosmetic, focus, etc)
+  const defaultState = {
+    xp: 0, hp: 100, level: 1, streak: 0, soulTokens: 0, avatar: 'default', settings: {}, focus: false, boss: null, calendarEvents: [],
+    inventory: [],
+    quests: [],
+    logs: [],
+  };
+  let state = { ...defaultState };
+
+  // Subscribe to Firestore doc changes (XP, etc.)
+  const unsub = db.collection('users').doc(userId).onSnapshot((doc) => {
+    if (doc.exists) {
+      Object.assign(state, doc.data());
+      rerender();
+    }
+  });
+
+  function gainXP(amount) {
+    state.xp += amount;
+    if (state.xp >= 100) { state.level++; state.xp -= 100; }
+    db.collection('users').doc(userId).set({ xp: state.xp, level: state.level }, { merge: true });
+    rerender();
+  }
+
+  function loseHP(amount) {
+    state.hp -= amount; if (state.hp < 0) state.hp = 0;
+    db.collection('users').doc(userId).set({ hp: state.hp }, { merge: true });
+    rerender();
+  }
+
+  function addInventory(item) {
+    if (!state.inventory.includes(item)) state.inventory.push(item);
+    db.collection('users').doc(userId).set({ inventory: state.inventory }, { merge: true });
+    rerender();
+  }
+
+  // Focus streak logic: called when user passes activity check
+  function streakUp() {
+    state.streak++;
+    db.collection('users').doc(userId).set({ streak: state.streak }, { merge: true });
+    rerender();
+  }
+
+  function setBoss(boss) {
+    state.boss = boss;
+    db.collection('users').doc(userId).set({ boss: state.boss }, { merge: true });
+    rerender();
+  }
+
+  function setQuests(quests) {
+    state.quests = quests;
+    db.collection('users').doc(userId).set({ quests: quests }, { merge: true });
+    rerender();
+  }
+
+  function rerender() {}
+
+  const ctx = {
+    ...state,
+    gainXP, loseHP, addInventory, streakUp, setBoss, setQuests,
+    subscribe: (fn) => { rerender = fn; },
+    getState: () => ({ ...state }),
+    unsubscribe: () => unsub?.(),
+  };
+
+  onReady(ctx);
+}
