@@ -77,9 +77,16 @@ export function GameProvider({ auth }, onReady) {
     rerender();
   }
 
+  // PUBLIC_INTERFACE
+  function setAvatar(itemId) {
+    state.avatar = itemId;
+    db.collection('users').doc(userId).set({ avatar: itemId }, { merge: true });
+    rerender();
+  }
+
   const ctx = {
     ...state,
-    gainXP, loseHP, addInventory, streakUp, setBoss, setQuests, setCalendarEvents,
+    gainXP, loseHP, addInventory, streakUp, setBoss, setQuests, setCalendarEvents, setAvatar,
     subscribe: (fn) => { rerender = fn; },
     getState: () => ({ ...state }),
     unsubscribe: () => { if (unsub) unsub(); },
