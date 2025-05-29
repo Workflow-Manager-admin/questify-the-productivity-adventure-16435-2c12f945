@@ -164,13 +164,13 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
         const cleaned = newArr.map(q => ({ ...q })); // shallow copy
         gameCtx.setQuests(cleaned);
         // Clear local override on remote update in onSnapshot (GameProvider)
-        setTimeout(() => {
+        globalThis.setTimeout(() => {
           DND_STATE.isSaving = false;
           DND_STATE.order = [];
           render();
         }, 800); // Small delay to allow Firestore to push latest state
       }
-    } catch (e) {
+    } catch {
       DND_STATE.isSaving = false;
       DND_STATE.error = "Sync error! Try again.";
       render();
