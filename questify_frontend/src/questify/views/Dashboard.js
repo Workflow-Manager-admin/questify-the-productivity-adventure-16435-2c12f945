@@ -234,8 +234,8 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
 
     // Animate bars (after DOM present)
     globalThis.setTimeout(() => {
-      animateBar(mountNode.querySelector("#hp-bar-fill"), percentHP);
-      animateBar(mountNode.querySelector("#xp-bar-fill"), percentXP);
+      animateBar(mountNode.querySelector("#hp-bar-fill"), gameState.hp || 0);
+      animateBar(mountNode.querySelector("#xp-bar-fill"), gameState.xp || 0);
       fantasyZones(gameState).forEach((zone, i) => {
         const meter = mountNode.querySelectorAll(".zone-meter-fill")[i];
         if (meter) {
@@ -244,6 +244,42 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
       });
     }, 30);
 
+    // Avatar cosmetic picker popup logic
+    const avatarBtn = mountNode.querySelector("#avatar-cosmetic-btn");
+    if (avatarBtn) avatarBtn.onclick = () => {
+      if (document.getElementById("avatar-cosmetic-modal")) return;
+      const modal = document.createElement("div");
+      modal.id = "avatar-cosmetic-modal";
+      modal.className = "rpg-modal-overlay";
+      modal.innerHTML = `
+        <div class="rpg-modal" style="text-align:center;">
+          <h3>Avatar Customization</h3>
+          <div style="display:flex; flex-wrap:wrap;gap:1.2em;justify-content:center;align-items:center;">
+            ${cosmeticsDef.filter(c => unlocked.includes(c.id)).map(c=>`
+              <div style="padding:0.7em;cursor:pointer;border:${equippedCosmetic===c.id?'3.6px solid var(--color-accent)':'2px solid #a7f3d0'};border-radius:13px;transition:.13s;position:relative;min-width:68px;display:flex;flex-direction:column;align-items:center;gap:3px;background:linear-gradient(99deg,var(--color-bg) 70%,#ffffff15 100%);" data-id="${c.id}">
+                <div style="width:68px;height:68px">${getAvatarSvg({ state: gameState, equipped: c.id })}</div>
+                <span style="font-size:0.96em;color:#a7f3d0">${c.name}</span>
+                ${equippedCosmetic===c.id?'<span style="position:absolute;right:3px;top:2px;color:var(--color-accent);font-size:1.3em;">★</span>':''}
+              </div>`).join("")}
+          </div>
+          <button class="rpg-btn" style="margin-top:1.4em;" id="close-avatar-modal">Close</button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      Array.from(modal.querySelectorAll("div[data-id]")).forEach(div=>{
+        div.onclick = function() {
+          eqAvatarCosmetic(gameState, div.dataset.id);
+          if (typeof gameCtx.setAvatar === "function") {
+            gameCtx.setAvatar(div.dataset.id); // If syncing with server, provide this
+          }
+          RPGToast({ message: `Equipped: ${(cosmeticsDef.find(c=>c.id===div.dataset.id)||{}).name}`, variant: 'success'});
+          modal.remove();
+          render();
+        }
+      });
+      modal.querySelector("#close-avatar-modal").onclick = ()=>modal.remove();
+    };
+
     // Zone dynamic actions
     const bossBtn = mountNode.querySelector("#battle-boss-btn");
     if (bossBtn && typeof gameCtx.loseHP === "function" && typeof gameCtx.gainXP === "function") {
@@ -251,7 +287,7 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
         // Boss battle feedback (toy logic; actual should be deeper)
         gameCtx.loseHP(15);
         gameCtx.gainXP(40);
-        globalThis.alert("You bravely battled the deadline boss: +40 XP, -15 HP!");
+        RPGToast({message:"You bravely battled the deadline boss: +40 XP, -15 HP!",variant:"success"});
       };
     }
     // Navigation buttons

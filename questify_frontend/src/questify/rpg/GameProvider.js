@@ -44,6 +44,16 @@ export function GameProvider({ auth }, onReady) {
   // Focus streak logic: called when user passes activity check
   function streakUp() {
     state.streak++;
+    // Bonus: unlock cosmetics for streaks (eg. Fox Mask for 5+ streak)
+    if (state.streak === 3 && !state.inventory.includes("Cyber Shades")) {
+      state.inventory.push("Cyber Shades");
+      db.collection('users').doc(userId).set({ inventory: state.inventory }, { merge: true });
+      // In-app toast handled via Dashboard's toast tracking
+    }
+    if (state.streak === 5 && !state.inventory.includes("Fox Mask")) {
+      state.inventory.push("Fox Mask");
+      db.collection('users').doc(userId).set({ inventory: state.inventory }, { merge: true });
+    }
     db.collection('users').doc(userId).set({ streak: state.streak }, { merge: true });
     rerender();
   }
