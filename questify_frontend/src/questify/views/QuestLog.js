@@ -197,7 +197,7 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
     });
     mountNode.querySelectorAll('.delete-btn').forEach(btn => {
       btn.onclick = function() {
-        if (!confirm("Delete this quest?")) return;
+        if (!globalThis.confirm || !globalThis.confirm("Delete this quest?")) return;
         const idx = +btn.dataset.idx;
         let arr = DND_STATE.order.length ? [...DND_STATE.order] : getQuests();
         arr.splice(idx, 1);
