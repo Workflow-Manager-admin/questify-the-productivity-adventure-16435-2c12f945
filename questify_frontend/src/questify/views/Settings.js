@@ -1,5 +1,3 @@
-Explanation: Settings view placeholder.
-
 // PUBLIC_INTERFACE
 export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
   mountNode.innerHTML = `
