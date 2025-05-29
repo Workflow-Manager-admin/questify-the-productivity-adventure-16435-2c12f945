@@ -2,6 +2,8 @@
 /**
  * QuestLog: RPG drag-and-drop quest/task management with real-time Firestore sync and polished fantasy UI
  */
+import { QuestAIModal } from "../ui/QuestAIModal.js";
+
 export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
   let DND_STATE = {
     draggingIndex: null,
