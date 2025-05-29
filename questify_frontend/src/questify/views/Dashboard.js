@@ -224,7 +224,7 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
     `;
 
     // Animate bars (after DOM present)
-    setTimeout(() => {
+    globalThis.setTimeout(() => {
       animateBar(mountNode.querySelector("#hp-bar-fill"), percentHP);
       animateBar(mountNode.querySelector("#xp-bar-fill"), percentXP);
       fantasyZones(gameState).forEach((zone, i) => {
@@ -242,7 +242,7 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
         // Boss battle feedback (toy logic; actual should be deeper)
         gameCtx.loseHP(15);
         gameCtx.gainXP(40);
-        alert("You bravely battled the deadline boss: +40 XP, -15 HP!");
+        globalThis.alert("You bravely battled the deadline boss: +40 XP, -15 HP!");
       };
     }
     // Navigation buttons
