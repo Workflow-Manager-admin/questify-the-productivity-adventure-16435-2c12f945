@@ -1,25 +1,46 @@
 {
-  "name": "vite",
+  "name": "questify",
+  "version": "1.0.0",
+  "description": "Questify: The Productivity Adventure – Gamified productivity RPG with AI quest-generation, Firebase sync, Google Calendar integration, and animated RPG UI.",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
+  "author": "Questify Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-org/questify"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "dev": "vite dev --host 0.0.0.0",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "format": "prettier --write \"src/**/*.{js,jsx,ts,tsx,css}\""
+  },
+  "dependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "firebase": "^11.8.1",
+    "openai": "^4.39.1",
+    "gapi-script": "^1.2.0",
+    "date-fns": "^4.1.0",
+    "@eslint/js": "^9.24.0",
+    "prettier": "^3.0.0",
+    "clsx": "^2.0.0",
+    "react-beautiful-dnd": "^13.1.1",
+    "react-dnd": "^16.0.1",
+    "react-dnd-html5-backend": "^16.0.1"
   },
   "devDependencies": {
+    "vite": "^6.2.0",
+    "eslint": "^8.53.0",
     "@typescript-eslint/eslint-plugin": "^8.29.1",
     "@typescript-eslint/parser": "^8.29.1",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-react": "^7.37.5",
-    "vite": "^6.2.0"
-  },
-  "dependencies": {
-    "@eslint/js": "^9.24.0",
-    "date-fns": "^4.1.0",
-    "firebase": "^11.8.1",
-    "gapi-script": "^1.2.0",
-    "save-dev": "^0.0.1-security"
+    "eslint-config-prettier": "^9.1.0"
   }
 }
