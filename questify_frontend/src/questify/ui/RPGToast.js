@@ -36,13 +36,13 @@ export function RPGToast({ message, variant = 'neutral', duration = 2500, onClic
   toast.onclick = () => { if (typeof onClick === 'function') onClick(); toast.remove(); };
   toastC.appendChild(toast);
   // Animate entrance
-  setTimeout(() => toast.classList.add('show'), 20);
+  globalThis.setTimeout(() => toast.classList.add('show'), 20);
 
   // Animate exit after duration
   if (duration > 0) {
-    setTimeout(() => {
+    globalThis.setTimeout(() => {
       toast.classList.remove('show');
-      setTimeout(() => toast.remove(), 500);
+      globalThis.setTimeout(() => toast.remove(), 500);
     }, duration);
   }
   // Toast style (global singleton)
