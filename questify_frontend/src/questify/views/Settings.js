@@ -6,8 +6,8 @@
 export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
   // Helper: apply safe focus to btn for accessibility
   function safeFocus(id) {
-    setTimeout(() => {
-      const el = document.getElementById(id);
+    globalThis.setTimeout(() => {
+      const el = globalThis.document.getElementById(id);
       if (el) el.focus();
     }, 200);
   }
@@ -91,7 +91,7 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
         const userId = user?.uid;
         // Reset progress: XP, HP, Level, inventory, quests, logs, streak, boss, calendarEvents, soulTokens
         if (gameCtx && typeof gameCtx.getState === 'function') {
-          const db = (window.firebase && window.firebase.firestore) ? window.firebase.firestore() : null;
+          const db = (globalThis.firebase && globalThis.firebase.firestore) ? globalThis.firebase.firestore() : null;
           if (!db || !userId) throw new Error("DB unavailable");
           await db.collection('users').doc(userId).set({
             xp: 0, hp: 100, level: 1, streak: 0, soulTokens: 0,
