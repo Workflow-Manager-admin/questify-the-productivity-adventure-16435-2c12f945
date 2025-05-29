@@ -1,0 +1,4 @@
+{
+    "command": "npm install && npm run build",
+    "working_directory": "/home/kavia/workspace/code-generation/questify-the-productivity-adventure-16435-2c12f945/questify_frontend"
+}
