@@ -26,8 +26,12 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
     mountNode.innerHTML = `
       <section class="rpg-glow-card rpg-fadein" style="max-width:800px;min-width:270px;">
         <h1>🗡️ Quest Log</h1>
-        <div style="margin-bottom:1em;">${DND_STATE.error ? `<span style="color:#f43f5e">${DND_STATE.error}</span>` : "Drag quests to change order, check/uncheck to complete."}
+        <div style="margin-bottom:1em;">
+          ${DND_STATE.error ? `<span style="color:#f43f5e">${DND_STATE.error}</span>` : "Drag quests to change order, check/uncheck to complete."}
           <span style="float:right;font-size:1em">${DND_STATE.isSaving ? "Syncing..." : ""}</span>
+        </div>
+        <div style="margin-bottom:0.8em;text-align:right;">
+          <button id="btn-ai-quest-generate" class="rpg-btn" style="background:var(--color-secondary);" title="Generate RPG Questline using AI">✨ AI Quest</button>
         </div>
         <ul class="rpg-questlog-list" id="rpg-questlog-ul">
           ${
@@ -54,10 +58,11 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
                 <span class="quest-action-btns">
                   <button class="rpg-btn mini complete-btn" data-idx="${idx}" ${q.done ? "disabled" : ""} title="Complete Quest">✅</button>
                   <button class="rpg-btn mini delete-btn" data-idx="${idx}" title="Delete Quest">🗑️</button>
+                  <button class="rpg-btn mini ai-enhance-btn" data-idx="${idx}" title="Enhance with AI">✨</button>
                 </span>
               </li>`)
                   .join("")
-              : `<li style="text-align:center;opacity:0.85">No quests yet! <br />Add one from another zone, or begin your journey.</li>`
+              : `<li style="text-align:center;opacity:0.85">No quests yet! <br />Add one from another zone, or begin your journey using <b>AI Quest</b> button.</li>`
           }
         </ul>
       </section>
@@ -65,6 +70,7 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
     // Re-attach event handlers
     wireupDnD();
     wireupActions();
+    wireupAI(); // <--- AI handlers
     updateStyles();
   }
 
