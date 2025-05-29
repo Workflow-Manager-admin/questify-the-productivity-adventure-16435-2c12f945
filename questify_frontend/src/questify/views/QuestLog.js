@@ -74,6 +74,46 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
     updateStyles();
   }
 
+  /** Wire up AI Quest Gen/Enhancement Buttons */
+  function wireupAI() {
+    // AI Questline Generation
+    const aiBtn = mountNode.querySelector('#btn-ai-quest-generate');
+    if (aiBtn) {
+      aiBtn.onclick = function() {
+        QuestAIModal({
+          mode: 'generate',
+          onDone: (quests) => {
+            // Insert generated quests to quest log
+            let arr = DND_STATE.order.length ? [...DND_STATE.order] : getQuests();
+            // Main quest as first, then side quests, then daily tasks
+            if (quests.main_quest) arr.push({ title: quests.main_quest, done: false, ai: true });
+            if (Array.isArray(quests.side_quests))
+              quests.side_quests.forEach(q => arr.push({ title: q, done: false, ai: true }));
+            if (Array.isArray(quests.daily_tasks))
+              quests.daily_tasks.forEach(q => arr.push({ title: q, done: false, ai: true, daily: true }));
+            saveOrder(arr);
+          }
+        });
+      };
+    }
+    // AI Quest Enhancement on each quest
+    mountNode.querySelectorAll('.ai-enhance-btn').forEach(btn => {
+      btn.onclick = function() {
+        const idx = +btn.dataset.idx;
+        let arr = DND_STATE.order.length ? [...DND_STATE.order] : getQuests();
+        const quest = arr[idx];
+        QuestAIModal({
+          mode: 'enhance',
+          options: { initialQuest: quest.title },
+          onDone: (enhancedText) => {
+            arr[idx] = { ...quest, title: enhancedText, ai: true };
+            saveOrder(arr);
+          }
+        });
+      };
+    });
+  }
+
   /** Drag and Drop Handlers */
   function wireupDnD() {
     const ul = mountNode.querySelector("#rpg-questlog-ul");
