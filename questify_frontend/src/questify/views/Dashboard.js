@@ -57,8 +57,34 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
   // Main build
   function render() {
     const gameState = gameCtx.getState ? gameCtx.getState() : {};
-    const percentHP = Math.max(0, Math.min(100, (gameState.hp || 0)));
-    const percentXP = Math.max(0, Math.min(100, (gameState.xp || 0)));
+    // Cosmetics integration
+    let equippedCosmetic = gameState.avatar || "base";
+    const unlocked = userUnlockedCosmetics(gameState);
+    const cosmeticsDef = getAvatarCosmeticsDef();
+    // Track reward state (feedback for cosmetic earn/streak pop)
+    if (!window._questify_last_state) window._questify_last_state = {};
+    const last = window._questify_last_state;
+    // Toast for new cosmetic unlocked
+    if (unlocked.length > (last.unlockedLen || 1)) {
+      const diff = unlocked.filter(u => !(last.unlockedArr||[]).includes(u));
+      if (diff.length > 0) {
+        for (let cId of diff) {
+          const cObj = cosmeticsDef.find(c=>c.id===cId);
+          if (cObj && cObj.name) {
+            RPGToast({ message: `You unlocked: ${cObj.name}!`, variant: 'reward', duration: 3500 });
+          }
+        }
+      }
+    }
+    // Streak celebration
+    if ((gameState.streak || 0) !== (last.streakVal || 0) && (gameState.streak || 0) > 0 && (gameState.streak || 0) % 3 === 0) {
+      RPGToast({ message: `🔥 Streak! ${gameState.streak} days in Focus Forest!`, variant: 'streak' });
+    }
+    window._questify_last_state = {
+      unlockedArr: unlocked,
+      unlockedLen: unlocked.length,
+      streakVal: gameState.streak || 0
+    };
     // Responsive/animated zone grid
     mountNode.innerHTML = `
       <section
@@ -67,19 +93,22 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
       >
         <div class="dashboard-header" style="display:flex;flex-wrap:wrap;align-items:center;gap:2.2em;justify-content:space-between;margin-bottom:2.3em;">
           <div class="avatar-block rpg-float" style="display:flex;align-items:center;gap:1.2em;">
-            <div class="dashboard-avatar" style="width:90px;height:90px">${getAvatarSvg(gameState)}</div>
+            <div class="dashboard-avatar" style="width:90px;height:90px; position:relative; cursor:pointer;" id="avatar-cosmetic-view">
+              ${getAvatarSvg({ state: gameState, equipped: equippedCosmetic })}
+              <span id="avatar-cosmetic-btn" style="position:absolute;bottom:-2px;right:-7px;background:var(--color-accent);color:#fff;border-radius:50%;font-size:1.4em;box-shadow:0 0 9px var(--color-primary);padding:0.05em 0.19em;cursor:pointer;">⚙️</span>
+            </div>
             <div>
               <div style="font-size:2em;font-family:var(--rpg-font);font-weight:700;">Welcome, <span style="color:var(--color-secondary)">${authCtx.user.email.split('@')[0]}</span></div>
               <div style="display:flex;align-items:center;gap:1.2em;">
                 <span>Level <span style="font-weight:bold">${gameState.level||1}</span></span>
                 <span>
                   <span style="color:#ec4899">💗</span>
-                  <span id="hp-bar" class="stat-bar-bg"><span id="hp-bar-fill" class="stat-bar-fill" style="width:${percentHP}%"></span></span>
+                  <span id="hp-bar" class="stat-bar-bg"><span id="hp-bar-fill" class="stat-bar-fill" style="width:${Math.max(0, Math.min(100, (gameState.hp || 0)))}%"></span></span>
                   <span style="font-size:1em">${gameState.hp||0}/100 HP</span>
                 </span>
                 <span>
                   <span style="color:#facc15">✨</span>
-                  <span id="xp-bar" class="stat-bar-bg"><span id="xp-bar-fill" class="stat-bar-fill xp" style="width:${percentXP}%"></span></span>
+                  <span id="xp-bar" class="stat-bar-bg"><span id="xp-bar-fill" class="stat-bar-fill xp" style="width:${Math.max(0, Math.min(100, (gameState.xp || 0)))}%"></span></span>
                   <span style="font-size:1em">${gameState.xp||0}/100 XP</span>
                 </span>
                 <span>
