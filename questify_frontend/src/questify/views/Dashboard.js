@@ -1,3 +1,6 @@
+import { RPGToast } from "../ui/RPGToast.js";
+import { getAvatarSvg, getAvatarCosmeticsDef, userUnlockedCosmetics, eqAvatarCosmetic } from "../ui/AvatarCosmetics.js";
+
 // PUBLIC_INTERFACE
 /**
  * RPG Dashboard: Animated HP/XP bars, customizable avatar, themed interactive zones, and full responsive layout.
@@ -9,29 +12,6 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
     const percent = Math.max(0, Math.min(100, value));
     el.style.width = percent + "%";
     el.style.transition = "width 850ms cubic-bezier(.7,.2,.12,1)";
-  }
-  // Avatar rendering (simple SVG, supports customization by inventory)
-  function getAvatarSvg(gameState) {
-    // Example basic avatar: add hat/cape if user has inventory items
-    const hasHat = (gameState.inventory || []).includes("Wizard Hat");
-    const hasCape = (gameState.inventory || []).includes("Mystic Cape");
-    return `
-      <svg width="90" height="90" viewBox="0 0 90 90">
-        <circle cx="45" cy="38" r="22" fill="#fff7e1" stroke="#7c3aed" stroke-width="3"/>
-        <ellipse cx="45" cy="67" rx="18" ry="18" fill="#7149d2" stroke="#4ade80" stroke-width="2"/>
-        <ellipse cx="45" cy="86" rx="23" ry="7" fill="#201b4c55"/>
-        <!-- Eyes -->
-        <ellipse cx="38.5" cy="38" rx="2.8" ry="3.3" fill="#212340"/>
-        <ellipse cx="51.5" cy="38" rx="2.8" ry="3.3" fill="#212340"/>
-        <!-- Smile -->
-        <path d="M39 47 Q45 54 51 47" stroke="#ef4444" stroke-width="2" fill="none"/>
-        <!-- Hat -->
-        ${hasHat?`<polygon points="28,35 44,4 62,35" fill="#3e1d75" stroke="#33176d" stroke-width="2"/>
-          <ellipse cx="45" cy="36" rx="18" ry="4.4" fill="#6a38bd" opacity="0.83"/>`:''}
-        <!-- Cape -->
-        ${hasCape?`<path d="M30,56 Q45,82 60,56 Q54,65 36,65 Q30,62 30,56" fill="#64ffda" opacity="0.78" stroke="#233" stroke-width="1.5"/>`:''}
-      </svg>
-    `;
   }
   // Fantasy Zone tiles
   function fantasyZones(gameState) {
