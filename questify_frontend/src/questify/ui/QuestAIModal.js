@@ -95,7 +95,7 @@ export function QuestAIModal({ mode, onDone, onClose, options = {} }) {
   // Allow esc-close
   globalThis.addEventListener('keydown', function escListener(evt) {
     if (evt.key === "Escape") {
-      try { modal.remove(); } catch {}
+      modal.remove();
       if (typeof onClose === 'function') onClose();
       globalThis.removeEventListener('keydown', escListener);
     }

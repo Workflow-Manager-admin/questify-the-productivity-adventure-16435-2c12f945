@@ -22,7 +22,7 @@ export async function generateOrEnhanceQuest(userPrompt, options = {}) {
   }
 
   try {
-    const resp = await fetch(OPENAI_ENDPOINT, {
+    const resp = await globalThis.fetch(OPENAI_ENDPOINT, {
       method: 'POST',
       headers: {
         "Content-Type": "application/json",
