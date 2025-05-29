@@ -1,5 +1,3 @@
-Explanation: Inventory view placeholder.
-
 // PUBLIC_INTERFACE
 export function Inventory(authCtx, themeCtx, gameCtx, mountNode) {
   mountNode.innerHTML = `
