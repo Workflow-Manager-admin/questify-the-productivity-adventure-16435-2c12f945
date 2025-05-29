@@ -60,7 +60,7 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
     render();
     try {
       await loadGapiInsideDOM();
-      gapi = window.gapi;
+      gapi = globalThis.gapi;
       await new Promise((resolve) => gapi.load('client', resolve));
       await gapi.client.init({
         apiKey: "", // No API key needed for OAuth+discovery
@@ -175,13 +175,13 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
         renderEventDetail();
       };
       td.querySelectorAll("[data-evt-id]").forEach(div => {
-        div.onclick = e => {
-          e.stopPropagation();
+        div.onclick = function(evt) {
+          evt.stopPropagation();
           const ev = events.find(ev => ev.id === div.getAttribute("data-evt-id"));
           selectedDay = td.dataset.date;
           selectedEvents = [ev];
           renderEventDetail();
-        }
+        };
       });
     });
   }
@@ -239,7 +239,7 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
     // Try restoring gapi (if previously loaded)
     try {
       await loadGapiInsideDOM();
-      gapi = window.gapi;
+      gapi = globalThis.gapi;
       await new Promise((resolve) => gapi.load('client', resolve));
       await gapi.client.init({
         apiKey: "",
