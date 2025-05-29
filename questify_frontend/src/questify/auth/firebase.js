@@ -1,6 +1,10 @@
+/**
+ * Initialize Firebase with config from environment variables
+ * (uses globalThis to avoid window is not defined lint error)
+ */
 // PUBLIC_INTERFACE
 export function initFirebase() {
-  if (window.firebaseApp) return window.firebaseApp;
+  if (globalThis.firebaseApp) return globalThis.firebaseApp;
   // All keys from import.meta.env
   const firebaseConfig = {
     apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -10,14 +14,14 @@ export function initFirebase() {
     messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
     appId: import.meta.env.VITE_FIREBASE_APP_ID,
   };
-  window.firebaseApp = window.firebase?.apps?.length
-    ? window.firebase.app()
-    : window.firebase.initializeApp(firebaseConfig);
-  return window.firebaseApp;
+  globalThis.firebaseApp = globalThis.firebase?.apps?.length
+    ? globalThis.firebase.app()
+    : globalThis.firebase.initializeApp(firebaseConfig);
+  return globalThis.firebaseApp;
 }
 
 export function getAuth() {
-  return window.firebase.auth();
+  return globalThis.firebase.auth();
 }
 
 export function onAuthStateChanged(auth, cb) {
@@ -25,7 +29,7 @@ export function onAuthStateChanged(auth, cb) {
 }
 
 export async function loginWithGoogle() {
-  const provider = new window.firebase.auth.GoogleAuthProvider();
+  const provider = new globalThis.firebase.auth.GoogleAuthProvider();
   await getAuth().signInWithPopup(provider);
 }
 
@@ -46,5 +50,5 @@ export async function logoutUser() {
 }
 
 export function getFirestore() {
-  return window.firebase.firestore();
+  return globalThis.firebase.firestore();
 }
