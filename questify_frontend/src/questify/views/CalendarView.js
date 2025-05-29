@@ -71,7 +71,7 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
       await gapi.auth2.getAuthInstance().signIn();
       isAuthed = true;
       fetchGCalEvents();
-    } catch (e) {
+    } catch {
       errorMsg = "Google Calendar auth failed.";
       loading = false;
       render();
@@ -112,7 +112,7 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
       setEvents(events);
       loading = false;
       render();
-    } catch (e) {
+    } catch {
       errorMsg = "Failed to fetch events.";
       loading = false;
       render();
