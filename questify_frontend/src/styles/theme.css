@@ -1,0 +1,81 @@
+:root {
+  --color-bg: #0a0f38;
+  --color-primary: #7c3aed;
+  --color-secondary: #4ade80;
+  --color-accent: #ef4444;
+  --rpg-font: 'Montserrat', 'Cinzel Decorative', 'serif';
+}
+
+body, #questify-root {
+  background: var(--color-bg);
+  font-family: var(--rpg-font), system-ui, sans-serif;
+  color: #fff;
+  margin: 0;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.rpg-navbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
+  box-shadow: 0 4px 30px #0008;
+  border-bottom: 2px solid var(--color-accent);
+  padding: 0.6rem 0;
+  z-index: 9;
+  position: relative;
+}
+
+.rpg-nav-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1.2em;
+  padding: 1em;
+  cursor: pointer;
+  font-family: var(--rpg-font), serif;
+  transition: color 0.3s, text-shadow 0.3s;
+}
+.rpg-nav-btn:hover {
+  color: var(--color-accent);
+  text-shadow: 0 0 8px var(--color-secondary);
+}
+
+.rpg-glow-card {
+  background: rgba(20,18,54,0.96);
+  box-shadow: 0 6px 16px 0 var(--color-primary), 0 0 24px var(--color-secondary) inset;
+  border-radius: 18px;
+  border: 1.6px solid var(--color-secondary);
+  padding: 2.2em 2em 2.2em 2em;
+  margin: 2.5em auto;
+  max-width: 380px;
+}
+
+.rpg-btn {
+  background: var(--color-primary);
+  color: #fff;
+  border: 2px solid var(--color-secondary);
+  border-radius: 10px;
+  box-shadow: 0 0 10px var(--color-secondary);
+  font-size: 1.1em;
+  padding: 0.75em 1.7em;
+  cursor: pointer;
+  margin-top: 0.5em;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.rpg-btn:hover {
+  background: var(--color-accent);
+  box-shadow: 0 0 18px var(--color-accent);
+}
+
+.rpg-avatar {
+  width: 48px;
+  height: 48px;
+  background: var(--color-bg);
+  border-radius: 50%;
+  border: 3px solid var(--color-primary);
+  box-shadow: 0 0 8px var(--color-secondary);
+  display: inline-block;
+  margin-left: 1.5em;
+}
