@@ -1,5 +1,3 @@
-Explanation: RPG Dashboard, top XP/HP bars, quick stats. Minimal placeholder until full UI expansion.
-
 // PUBLIC_INTERFACE
 export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
   mountNode.innerHTML = `
