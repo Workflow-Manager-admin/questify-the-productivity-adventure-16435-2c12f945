@@ -121,15 +121,15 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
       saving = true; status = "Deleting account..."; statusType = "info"; render();
       try {
         const userId = user?.uid;
-        const db = (window.firebase && window.firebase.firestore) ? window.firebase.firestore() : null;
-        if (!db || !userId || !window.firebase.auth) throw new Error("DB/Auth unavailable");
+        const db = (globalThis.firebase && globalThis.firebase.firestore) ? globalThis.firebase.firestore() : null;
+        if (!db || !userId || !globalThis.firebase.auth) throw new Error("DB/Auth unavailable");
         // Delete Firestore user data
         await db.collection('users').doc(userId).delete();
         // Delete account from Firebase Auth
-        await window.firebase.auth().currentUser.delete();
+        await globalThis.firebase.auth().currentUser.delete();
         status = "Account deleted. Farewell, adventurer!";
         statusType = "success";
-        setTimeout(() => { if(window.location) window.location.reload(); }, 1000);
+        globalThis.setTimeout(() => { if(globalThis.location) globalThis.location.reload(); }, 1000);
       } catch (err) {
         status = (err?.message || "Failed to delete account. Re-auth may be required.");
         statusType = "error";
@@ -155,7 +155,7 @@ export function Settings(authCtx, themeCtx, gameCtx, mountNode) {
       status = "Sending feedback...";
       statusType = "info";
       render();
-      setTimeout(() => {
+      globalThis.setTimeout(() => {
         saving = false;
         status = "Thanks for your feedback! The Questify devs appreciate your input.";
         statusType = "success";
