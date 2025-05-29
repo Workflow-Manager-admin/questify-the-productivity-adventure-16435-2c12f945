@@ -60,9 +60,16 @@ export function GameProvider({ auth }, onReady) {
     rerender();
   }
 
+  // PUBLIC_INTERFACE
+  function setCalendarEvents(events) {
+    state.calendarEvents = events;
+    db.collection('users').doc(userId).set({ calendarEvents: state.calendarEvents }, { merge: true });
+    rerender();
+  }
+
   const ctx = {
     ...state,
-    gainXP, loseHP, addInventory, streakUp, setBoss, setQuests,
+    gainXP, loseHP, addInventory, streakUp, setBoss, setQuests, setCalendarEvents,
     subscribe: (fn) => { rerender = fn; },
     getState: () => ({ ...state }),
     unsubscribe: () => { if (unsub) unsub(); },
