@@ -62,8 +62,8 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
     const unlocked = userUnlockedCosmetics(gameState);
     const cosmeticsDef = getAvatarCosmeticsDef();
     // Track reward state (feedback for cosmetic earn/streak pop)
-    if (!window._questify_last_state) window._questify_last_state = {};
-    const last = window._questify_last_state;
+    if (!globalThis._questify_last_state) globalThis._questify_last_state = {};
+    const last = globalThis._questify_last_state;
     // Toast for new cosmetic unlocked
     if (unlocked.length > (last.unlockedLen || 1)) {
       const diff = unlocked.filter(u => !(last.unlockedArr||[]).includes(u));
@@ -80,7 +80,7 @@ export function Dashboard(authCtx, themeCtx, gameCtx, mountNode) {
     if ((gameState.streak || 0) !== (last.streakVal || 0) && (gameState.streak || 0) > 0 && (gameState.streak || 0) % 3 === 0) {
       RPGToast({ message: `🔥 Streak! ${gameState.streak} days in Focus Forest!`, variant: 'streak' });
     }
-    window._questify_last_state = {
+    globalThis._questify_last_state = {
       unlockedArr: unlocked,
       unlockedLen: unlocked.length,
       streakVal: gameState.streak || 0
