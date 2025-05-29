@@ -28,15 +28,15 @@ export function AppRouter(authCtx, themeCtx, gameCtx, domNode) {
       </nav>
     `;
     navbar.querySelectorAll('button[data-path]').forEach(btn => {
-      btn.onclick = () => (window.location.hash = btn.dataset.path);
+      btn.onclick = () => (globalThis.location.hash = btn.dataset.path);
     });
 
     const main = domNode.querySelector('#main-content');
-    let route = window.location.hash.replace('#', '') || '/';
+    let route = globalThis.location.hash.replace('#', '') || '/';
     let found = routes.find(r => r.path === route);
     if (!found) { route = '/'; found = routes[0]; }
     found.component(authCtx, themeCtx, gameCtx, main);
   }
-  window.addEventListener('hashchange', renderCurrent);
+  globalThis.addEventListener('hashchange', renderCurrent);
   renderCurrent();
 }
