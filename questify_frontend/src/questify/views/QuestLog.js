@@ -1,5 +1,3 @@
-Explanation: Quest Log view placeholder.
-
 // PUBLIC_INTERFACE
 export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
   mountNode.innerHTML = `

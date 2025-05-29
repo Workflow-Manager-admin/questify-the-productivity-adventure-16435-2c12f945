@@ -1,5 +1,3 @@
-Explanation: Calendar view placeholder.
-
 // PUBLIC_INTERFACE
 export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
   mountNode.innerHTML = `
