@@ -84,7 +84,7 @@ export function QuestLog(authCtx, themeCtx, gameCtx, mountNode) {
         DND_STATE.offsetY = e.offsetY;
         item.classList.add("dragging");
         e.dataTransfer.effectAllowed = "move";
-        try { e.dataTransfer.setDragImage(item, 16, 16); } catch (_ignore) { /* no-op */ }
+        try { e.dataTransfer.setDragImage(item, 16, 16); } catch { /* no-op */ }
         render(); // visual feedback
       });
       item.addEventListener('dragover', (e) => {
