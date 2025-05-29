@@ -9,20 +9,21 @@ export function ThemeProvider(authCtx, onReady) {
   };
   let mode = 'fantasy';
   try {
-    mode = localStorage.getItem('q_theme') || 'fantasy';
-  } catch { }
+    mode = globalThis.localStorage.getItem('q_theme') || 'fantasy';
+  } catch (e) { mode = 'fantasy'; }
+  let rerender = () => {};
   const ctx = {
     mode,
     palette,
     setMode: (m) => {
       mode = m;
-      localStorage.setItem('q_theme', m);
+      try { globalThis.localStorage.setItem('q_theme', m); } catch {}
       updateCssVars();
       rerender();
     }
   };
   function updateCssVars() {
-    const root = document.documentElement;
+    const root = globalThis.document.documentElement;
     if (mode === 'fantasy') {
       root.style.setProperty('--color-bg', palette.night);
       root.style.setProperty('--color-primary', palette.primary);
@@ -40,7 +41,6 @@ export function ThemeProvider(authCtx, onReady) {
       root.style.setProperty('--color-accent', palette.accent);
     }
   }
-  function rerender() {} // stub (UI rerender) – downstream providers trigger this.
   updateCssVars();
   onReady({ ...ctx });
 }
