@@ -17,7 +17,7 @@ export function ThemeProvider(authCtx, onReady) {
     palette,
     setMode: (m) => {
       mode = m;
-      try { globalThis.localStorage.setItem('q_theme', m); } catch {}
+      try { globalThis.localStorage.setItem('q_theme', m); } catch { /* ignore storage error */ }
       updateCssVars();
       rerender();
     }
