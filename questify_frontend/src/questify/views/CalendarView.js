@@ -1,5 +1,5 @@
 import { loadGapiInsideDOM } from "gapi-script";
-import { format, startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameDay, isSameMonth, parseISO, isAfter, isBefore } from "date-fns";
+import { startOfMonth, endOfMonth, startOfWeek, endOfWeek, addDays, isSameDay, isSameMonth, parseISO, isAfter } from "date-fns";
 
 // -- Settings: supply your own Google Client ID for production use --
 const GOOGLE_CLIENT_ID = "REPLACE_WITH_YOUR_CLIENT_ID.apps.googleusercontent.com";
@@ -24,7 +24,7 @@ function isBoss(event) {
  * Renders the Calendar View: Google OAuth, event fetch, RPG grid view, boss logic.
  */
 export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
-  let user = authCtx.user, events = [], gapi, tokenClient, loading = false, errorMsg = "", selectedDay = null, selectedEvents = [];
+  let events = [], gapi, loading = false, errorMsg = "", selectedDay = null, selectedEvents = [];
   let isAuthed = false;
 
   // UI rerender helper
