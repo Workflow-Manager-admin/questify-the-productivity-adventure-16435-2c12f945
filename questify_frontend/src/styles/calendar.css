@@ -1,0 +1,35 @@
+/* RPG-style calendar grid and cell styles */
+.rpg-calendar {
+  width: 100%;
+  max-width: 700px;
+  margin: 2em auto;
+  background: linear-gradient(120deg, var(--color-secondary) 0%, var(--color-primary) 100%);
+  border-radius: 22px;
+  box-shadow: 0 0 24px var(--color-accent) inset;
+  overflow: hidden;
+  color: #fff;
+}
+
+.rpg-calendar th, .rpg-calendar td {
+  text-align: center;
+  padding: 1em 0.5em;
+  border-bottom: 1px solid var(--color-primary);
+}
+
+.rpg-calendar td {
+  cursor: pointer;
+  background: rgba(80,50,207,0.08);
+  transition: background 0.18s;
+}
+
+.rpg-calendar td:hover {
+  background: var(--color-secondary);
+  color: #131432;
+}
+
+.rpg-calendar .rpg-calendar-today {
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 14px;
+}
