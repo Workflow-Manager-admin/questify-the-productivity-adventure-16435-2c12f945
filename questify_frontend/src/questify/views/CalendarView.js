@@ -195,7 +195,7 @@ export function CalendarView(authCtx, themeCtx, gameCtx, mountNode) {
     if (selectedEvents.length) dayEvts = selectedEvents;
     if (!dayEvts.length) { detailEl.innerHTML = "<div style='padding:0.8em'>No events for this day.</div>"; return; }
     // Event detail: boss logic/action
-    detailEl.innerHTML = dayEvts.map((ev,i) => `
+    detailEl.innerHTML = dayEvts.map((ev) => `
       <div style="padding:1em;margin:1em 0;background:rgba(30,12,77,0.9);border-radius:12px;border:1.5px solid var(--color-secondary);">
         <div style="font-size:1.18em;font-weight:bold;">
           ${isBoss(ev) ? "👹 <span style='color:#f43f5e'>BOSS: " + getEventTitle(ev) + "</span>" : "🗒️ " + getEventTitle(ev)}
